@@ -26,7 +26,9 @@ function(use_fallback_fs)
   )
   target_include_directories(${PROJECT_NAME} PUBLIC include)
 
-  target_sources(surge-tests INTERFACE src/tests.cpp)
+  if(${FILESYSTEM_TEST_TARGET})
+    target_sources(${FILESYSTEM_TEST_TARGET} INTERFACE src/tests.cpp)
+  endif()
   generate_header("\"filesystem/filesystem.h\"" "Surge::filesystem")
 endfunction()
 
