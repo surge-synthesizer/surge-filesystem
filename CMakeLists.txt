@@ -1,4 +1,9 @@
+cmake_minimum_required(VERSION 3.10)
 project(filesystem VERSION 0.0.0 LANGUAGES CXX)
+
+if(${BUILD_STANDALONE_FS_TESTS})
+   set(CMAKE_CXX_STANDARD 17)
+endif()
 
 function(generate_header FS_HEADER FS_NAMESPACE)
   message(STATUS "${PROJECT_NAME}: Using ${FS_NAMESPACE} from ${FS_HEADER}")
@@ -57,3 +62,19 @@ else()
 endif()
 
 add_library(surge::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
+
+if(${BUILD_STANDALONE_FS_TESTS})
+   set(CMAKE_CXX_STANDARD 17)
+   message(STATUS "Building Standalone Tests" )
+   add_executable( filesystem-tests test-utils/test_main.cpp src/tests.cpp )
+   target_include_directories( filesystem-tests PRIVATE include test-utils )
+   target_link_libraries(filesystem-tests PRIVATE filesystem)
+
+   add_custom_command(
+        TARGET filesystem-tests
+        POST_BUILD
+        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+	COMMAND cmake -E make_directory ${CMAKE_BINARY_DIR}/products
+        COMMAND cmake -E copy $<TARGET_FILE:filesystem-tests> ${CMAKE_BINARY_DIR}/products
+   )
+endif()
