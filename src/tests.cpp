@@ -488,6 +488,12 @@ TEST_CASE("Filesystem", "[filesystem]")
          REQUIRE_FALSE(fs::path{"file"}.is_absolute());
          REQUIRE(fs::path{"file"}.is_relative());
       }
+
+      SECTION("compare")
+      {
+         REQUIRE(fs::path{"/foo"}.compare(fs::path{"/foo"}) == 0 );
+         REQUIRE(fs::path{"/foo"}.compare(fs::path{"/bar"}) != 0 );
+      }
    }
 
    REQUIRE(fs::directory_iterator{tmpDir} == fs::directory_iterator{});
