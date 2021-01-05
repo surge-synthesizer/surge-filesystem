@@ -67,8 +67,9 @@ if(${BUILD_STANDALONE_FS_TESTS})
    set(CMAKE_CXX_STANDARD 17)
    message(STATUS "Building Standalone Tests" )
    add_executable( filesystem-tests test-utils/test_main.cpp src/tests.cpp )
+   add_dependencies( filesystem-tests surge::${PROJECT_NAME} )
    target_include_directories( filesystem-tests PRIVATE include test-utils )
-   target_link_libraries(filesystem-tests PRIVATE filesystem)
+   target_link_libraries(filesystem-tests PUBLIC surge::${PROJECT_NAME} )
 
    add_custom_command(
         TARGET filesystem-tests
