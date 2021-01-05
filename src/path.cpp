@@ -18,6 +18,7 @@
 #include "util.h"
 
 #include <iomanip>
+#include <cstring>
 #include <iostream>
 
 namespace Surge { namespace filesystem {
