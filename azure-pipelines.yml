@@ -13,16 +13,6 @@ jobs:
       mac:
         imageName: 'macos-10.15'
         isMac: True
-     # on WIN we never use this implementation because we have std::filesystem reliably
-     # win:
-     #   imageName: 'windows-2019'
-     #   isWindows: True
-      lin:
-        imageName: 'ubuntu-20.04'
-        isLinux: True
-
-  pool:
-    vmImage: $(imageName)
 
   steps:
   - checkout: self
@@ -30,14 +20,6 @@ jobs:
     # submodules: recursive # can't do submodules here b'cuz depth=1 fails with Github
 
   - bash: |
-      cmake -Bbuild -DBUILD_STANDALONE_FS_TESTS=TRUE  -DSURGE_DEVEL_FORCE_FALLBACK_FS=TRUE
+      echo "This repo is no longer used"
     displayName: Run CMake
-
-  - bash: |
-      cmake --build build --config Release --target filesystem-tests
-    displayName: Build filesystem test
-
-  - bash: |
-      ./build/products/filesystem-tests
-    displayName: Run Tests
 
